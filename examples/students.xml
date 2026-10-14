@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- students.xml : simple XML example with student details.
+     Open it in a browser (double-click) to see the tree, or in Notepad to edit. -->
+<students>
+  <student id="1">
+    <name>Asha Kumar</name>
+    <email>asha@example.com</email>
+    <department>Computer Science</department>
+    <yearOfStudy>3</yearOfStudy>
+  </student>
+  <student id="2">
+    <name>Rahul Sharma</name>
+    <email>rahul@example.com</email>
+    <department>Information Technology</department>
+    <yearOfStudy>2</yearOfStudy>
+  </student>
+  <student id="3">
+    <name>Meena Iyer</name>
+    <email>meena@example.com</email>
+    <department>Electronics</department>
+    <yearOfStudy>4</yearOfStudy>
+  </student>
+  <student id="4">
+    <name>Vikram Singh</name>
+    <email>vikram@example.com</email>
+    <department>Mechanical</department>
+    <yearOfStudy>1</yearOfStudy>
+  </student>
+</students>

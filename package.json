@@ -1,0 +1,16 @@
+{
+  "name": "student-portal",
+  "version": "1.0.0",
+  "description": "Simple Student Portal for a college Model Lab practical exam (Node.js, Express, MongoDB, Mongoose)",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node --test"
+  },
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.6.1",
+    "express": "^4.22.3",
+    "mongoose": "^8.24.5"
+  }
+}

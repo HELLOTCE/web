@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - Student Portal</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="js/site-config.js"></script>
+  <script src="js/validators.js"></script>
+  <script src="js/auth.js"></script>
+</head>
+<body>
+  <div class="login-wrapper">
+    <div class="login-box">
+      <!-- EDIT: logo / website name (the name comes from js/site-config.js) -->
+      <div class="logo" data-site-name>Student Portal</div>
+      <div class="logo-sub" data-site-tagline>College Model Lab Practical</div>
+
+      <h2>Sign In</h2>
+      <div id="loginMessage" class="message"></div>
+
+      <form id="loginForm" novalidate>
+        <div class="field">
+          <label for="email">Email</label>
+          <input type="email" id="email" placeholder="student@example.com">
+          <div class="field-error" id="emailError"></div>
+        </div>
+        <div class="field">
+          <label for="password">Password</label>
+          <input type="password" id="password" placeholder="Enter your password">
+          <div class="field-error" id="passwordError"></div>
+        </div>
+        <div class="login-extra">
+          <span><input type="checkbox" id="remember"> <label for="remember">Remember me</label></span>
+          <a href="#" id="forgotLink">Forgot password?</a>
+        </div>
+        <button type="submit" class="btn" style="width:100%">Sign in</button>
+      </form>
+
+      <div class="notice">
+        Demo email: <code>student@example.com</code> &nbsp; Password: <code>password123</code>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

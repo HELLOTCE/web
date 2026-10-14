@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Form - Student Portal</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="js/site-config.js"></script>
+  <script src="js/validators.js"></script>
+  <script src="js/auth.js"></script>
+  <script>requireLogin(); // visitors who are not logged in are sent to the login page</script>
+</head>
+<body>
+  <div class="layout">
+    <!-- ===== SIDEBAR (same on every page; edit link names here) ===== -->
+    <aside class="sidebar">
+      <div class="logo" data-site-name>Student Portal</div>
+      <a class="nav-link" href="dashboard.html">Dashboard</a>
+      <a class="nav-link" href="about.html">About</a>
+      <a class="nav-link active" href="student-form.html">Student Form</a>
+      <a class="nav-link" href="student-records.html">Student Records</a>
+      <button class="btn btn-secondary" onclick="logout()">Logout</button>
+    </aside>
+    <main class="content">
+      <h1>Student Information Form</h1>
+      <p>Fill in all fields. Fields marked * are required.</p>
+
+      <div id="formMessage" class="message"></div>
+
+      <!-- To add a field: copy one <div class="field"> block, change the id/label,
+           then add the same field name in js/student-form.js (fields list),
+           js/validators.js, models/Student.js and routes/studentHandlers.js -->
+      <form id="studentForm" class="form-box" novalidate>
+        <div class="field">
+          <label for="name">Name *</label>
+          <input type="text" id="name" placeholder="Enter full name">
+          <div class="field-error" id="nameError"></div>
+        </div>
+        <div class="field">
+          <label for="email">Email *</label>
+          <input type="email" id="email" placeholder="student@example.com">
+          <div class="field-error" id="emailError"></div>
+        </div>
+        <div class="field">
+          <label for="department">Department *</label>
+          <select id="department">
+            <option value="">-- Select department --</option>
+            <option>Computer Science</option>
+            <option>Information Technology</option>
+            <option>Electronics</option>
+            <option>Mechanical</option>
+            <option>Civil</option>
+          </select>
+          <div class="field-error" id="departmentError"></div>
+        </div>
+        <div class="field">
+          <label for="yearOfStudy">Year of Study *</label>
+          <select id="yearOfStudy">
+            <option value="">-- Select year --</option>
+            <option value="1">1st Year</option>
+            <option value="2">2nd Year</option>
+            <option value="3">3rd Year</option>
+            <option value="4">4th Year</option>
+          </select>
+          <div class="field-error" id="yearOfStudyError"></div>
+        </div>
+        <div class="form-buttons">
+          <button type="submit" class="btn">Submit</button>
+          <button type="reset" class="btn btn-secondary">Reset</button>
+        </div>
+      </form>
+    </main>
+  </div>
+  <script src="js/student-form.js"></script>
+</body>
+</html>

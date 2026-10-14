@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>AngularJS Demo - Student Portal</title>
+  <!-- AngularJS 1.8.3 loaded from the internet (CDN).
+       No internet in the lab? Download angular.min.js, put it in this folder
+       and change the src below to: angular.min.js -->
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.3/angular.min.js"></script>
+  <style>
+    body { font-family: Arial, sans-serif; max-width: 520px; margin: 40px auto; padding: 0 16px; color: #2d3748; }
+    .box { border: 1px solid #e2e8f0; border-top: 4px solid #6c5ce7; border-radius: 8px; padding: 20px; }
+    input { padding: 8px; width: 100%; box-sizing: border-box; margin: 6px 0 12px; }
+    .result { background: #efecff; padding: 10px; border-radius: 6px; }
+  </style>
+</head>
+
+<!-- 1. ng-app : tells AngularJS "this part of the page is an Angular application" -->
+<body ng-app="studentApp">
+
+  <h1>AngularJS Demo</h1>
+
+  <!-- 2. ng-controller : connects this section to the controller written in the script below -->
+  <div class="box" ng-controller="StudentController">
+
+    <label>Student name:</label>
+    <!-- 3. ng-model : links the input box to the variable "studentName" (two-way binding) -->
+    <input type="text" ng-model="studentName" placeholder="Type a name">
+
+    <label>Department:</label>
+    <input type="text" ng-model="department" placeholder="Type a department">
+
+    <!-- 4. {{ }} : data binding. It shows the variable values and updates while you type -->
+    <div class="result">
+      <p>Hello, <strong>{{ studentName }}</strong>!</p>
+      <p>Department: {{ department }}</p>
+      <p>Welcome message from controller: {{ message }}</p>
+      <p>Name length: {{ studentName.length }}</p>
+    </div>
+  </div>
+
+  <script>
+    // Create the Angular module named in ng-app
+    var app = angular.module('studentApp', []);
+
+    // Create the controller named in ng-controller.
+    // $scope is the link between the controller and the HTML.
+    app.controller('StudentController', function ($scope) {
+      $scope.studentName = 'Asha';             // starting value
+      $scope.department = 'Computer Science';  // starting value
+      $scope.message = 'AngularJS is working!';
+    });
+  </script>
+</body>
+</html>
