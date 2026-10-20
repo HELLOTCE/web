@@ -26,11 +26,11 @@ Font: **Arial** (or Inter). Headings 24 px bold, body 15 px.
 4. Add two labels ("Email", "Password") and below each a rectangle 336 x 40 (white fill, `#E2E8F0` stroke, radius 6).
 5. Add a small square for the **Remember me** checkbox with its text, and "Forgot password?" text on the right in `#6C5CE7`.
 6. Draw a button rectangle 336 x 44, fill `#6C5CE7`, radius 6, with white text "Sign in".
-7. Add a small note: "Practice only: demo login".
+7. Add a small note: "Email and password format check only; no account authentication".
 8. Select shapes and press **Ctrl + Alt + G** (Auto layout is **Shift + A**) to space things evenly.
 
 ## Dashboard frame
-1. **Sidebar:** rectangle 230 x 1024 at the left, fill `#EFECFF`. Add the logo text and four text items: Dashboard, About, Student Form, Student Records. Add a "Logout" button at the bottom. Give the active item a `#6C5CE7` rectangle with white text.
+1. **Sidebar:** rectangle 230 x 1024 at the left, fill `#EFECFF`. Add the logo text and three text items: About, Student Form, Student Records. Give the active item a `#6C5CE7` rectangle with white text.
 2. **Welcome message:** text "Welcome, Student!" at the top of the content area (24 px bold).
 3. **Three cards:** rectangles 220 x 100, white fill, `#E2E8F0` stroke, radius 8, with a 4 px `#6C5CE7` bar on top. Inside add a large number and a label (e.g. 120 / Total Students). Create one card, then duplicate it with **Ctrl + D**.
 4. **Recent activity table:** heading "Recent Activity", then a header row (fill `#EFECFF`) with Date / Activity / Status and 3-4 rows below. Use lines or thin rectangles between rows.

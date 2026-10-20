@@ -16,30 +16,24 @@
       <div class="logo" data-site-name>Student Portal</div>
       <div class="logo-sub" data-site-tagline>College Model Lab Practical</div>
 
-      <h2>Sign In</h2>
+        <h2>Continue to the portal</h2>
       <div id="loginMessage" class="message"></div>
 
       <form id="loginForm" novalidate>
         <div class="field">
           <label for="email">Email</label>
-          <input type="email" id="email" placeholder="student@example.com">
+          <input type="email" id="email" placeholder="name@example.com" autocomplete="email" required>
           <div class="field-error" id="emailError"></div>
         </div>
         <div class="field">
           <label for="password">Password</label>
-          <input type="password" id="password" placeholder="Enter your password">
+          <input type="password" id="password" placeholder="8+ characters, with a letter and number" autocomplete="current-password" required>
           <div class="field-error" id="passwordError"></div>
-        </div>
-        <div class="login-extra">
-          <span><input type="checkbox" id="remember"> <label for="remember">Remember me</label></span>
-          <a href="#" id="forgotLink">Forgot password?</a>
         </div>
         <button type="submit" class="btn" style="width:100%">Sign in</button>
       </form>
 
-      <div class="notice">
-        Demo email: <code>student@example.com</code> &nbsp; Password: <code>password123</code>
-      </div>
+      <p class="notice">Enter a valid email and a password with at least 8 characters, including a letter and a number. This checks format only; accounts are not stored or authenticated.</p>
     </div>
   </div>
 </body>

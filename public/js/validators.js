@@ -16,7 +16,7 @@
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(email || '').trim());
   }
 
-  // Login form: email must be valid, password must be at least 6 characters.
+  // Generic client-side credential format check (not account authentication).
   // Returns { valid: true/false, errors: { fieldName: 'message' } }
   function validateLogin(data) {
     var errors = {};
@@ -27,7 +27,9 @@
     else if (!isValidEmail(email)) errors.email = 'Enter a valid email address';
 
     if (!password) errors.password = 'Password is required';
-    else if (password.length < 6) errors.password = 'Password must be at least 6 characters';
+    else if (!/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*?&._-]{8,}$/.test(password)) {
+      errors.password = 'Use 8+ characters with at least one letter and one number';
+    }
 
     return { valid: Object.keys(errors).length === 0, errors: errors };
   }

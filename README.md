@@ -3,8 +3,7 @@
 A simple, reusable Student Portal: **Node.js + Express + MongoDB (Mongoose)** backend, plain HTML/CSS/JavaScript frontend,
 an AngularJS demo, an XML example, tests, and a Figma guide.
 
-> The login is a **demo for practice only**. It is not real security.
-> Demo login: `student@example.com` / `password123` (change in `public/js/site-config.js`).
+> The entry form checks email and password formats only. This project does not create accounts or authenticate users.
 
 ---
 
@@ -21,15 +20,14 @@ student-portal/
 │   └── studentHandlers.js     The code that runs for those URLs
 ├── public/                    The website (served by Express)
 │   ├── index.html             Login page
-│   ├── dashboard.html         Dashboard
 │   ├── about.html             About page
 │   ├── student-form.html      Student information form
 │   ├── student-records.html   Saved records table
 │   ├── css/style.css          All styling (colours are at the top)
 │   └── js/
-│       ├── site-config.js     Website name + demo login (EDIT HERE)
+│       ├── site-config.js     Website name (EDIT HERE)
 │       ├── validators.js      Validation rules (browser, server, tests)
-│       ├── auth.js            Demo login / logout
+│       ├── auth.js            Entry form format validation
 │       ├── student-form.js    Sends the form to the API
 │       └── student-records.js Loads records from the API
 ├── examples/
@@ -91,7 +89,7 @@ You should see:
 Server running at http://localhost:3000
 MongoDB connected: mongodb://127.0.0.1:27017/student_portal
 ```
-Open **http://localhost:3000** in your browser and sign in with the demo login.
+Open **http://localhost:3000** in your browser. The entry form accepts any valid email and a password of at least 8 characters containing a letter and a number; it only checks format and does not authenticate an account.
 
 > Always open the site through `http://localhost:3000`. Do **not** double-click the HTML files for the main
 > pages, because the form and records need the server.
@@ -134,6 +132,17 @@ curl -X POST http://localhost:3000/api/students -H "Content-Type: application/js
   The file is commented line by line: `ng-app`, `ng-controller`, `ng-model`, `{{ }}`.
 - XML: open `examples/students.xml` in a browser or Notepad.
 
+### Selenium login-page demo
+
+The Selenium script in `examples/selenium_login_test.py` checks invalid email, a password missing a number, and a valid format that continues to the student form. The form only checks input format; it does not authenticate an account.
+
+With the portal running in one terminal (`npm start`), install Selenium and run the script in another:
+```
+python -m pip install selenium
+python examples/selenium_login_test.py
+```
+The example opens Chrome. Selenium 4's Selenium Manager locates the browser driver. To run headless, set `HEADLESS=1`; to use another server address, set `PORTAL_URL` (for example `http://localhost:3001/`).
+
 ---
 
 ## 7. Testing
@@ -150,7 +159,7 @@ npm test
 The handler tests use a fake in-memory model, so they run **without MongoDB**.
 They do not test the HTML pages in a browser; do that manually (see below).
 
-**Manual test checklist:** wrong login shows an error; correct demo login opens the dashboard;
+**Manual test checklist:** invalid email/password formats show errors; valid formats open the student form;
 empty student form shows errors; valid submission shows a success message; the record appears on Student Records.
 
 ---
@@ -161,7 +170,6 @@ empty student form shows errors; valid submission shows a success message; the r
 |---|---|
 | Website name / tagline, demo email and password | `public/js/site-config.js` |
 | Colours | top of `public/css/style.css` (`:root`) |
-| Dashboard cards, activity table, welcome text | `public/dashboard.html` |
 | About page text | `public/about.html` |
 | Sidebar link names | the `<aside class="sidebar">` block in each page |
 | Form labels, dropdown options | `public/student-form.html` |

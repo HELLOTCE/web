@@ -7,19 +7,15 @@
   <link rel="stylesheet" href="css/style.css">
   <script src="js/site-config.js"></script>
   <script src="js/validators.js"></script>
-  <script src="js/auth.js"></script>
-  <script>requireLogin(); // visitors who are not logged in are sent to the login page</script>
 </head>
 <body>
   <div class="layout">
     <!-- ===== SIDEBAR (same on every page; edit link names here) ===== -->
     <aside class="sidebar">
       <div class="logo" data-site-name>Student Portal</div>
-      <a class="nav-link" href="dashboard.html">Dashboard</a>
       <a class="nav-link active" href="about.html">About</a>
       <a class="nav-link" href="student-form.html">Student Form</a>
       <a class="nav-link" href="student-records.html">Student Records</a>
-      <button class="btn btn-secondary" onclick="logout()">Logout</button>
     </aside>
     <main class="content">
       <!-- EDIT: every heading and paragraph below can be changed freely -->
@@ -46,7 +42,7 @@
           <li>Student information form with validation</li>
           <li>Records saved safely in a MongoDB database</li>
           <li>Student records page showing all saved students</li>
-          <li>Simple and clean dashboard</li>
+          <li>Simple email and password format validation</li>
         </ul>
       </div>
     </main>
