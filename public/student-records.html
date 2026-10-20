@@ -5,34 +5,54 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Student Records - Student Portal</title>
   <link rel="stylesheet" href="css/style.css">
-  <script src="js/site-config.js"></script>
-  <script src="js/validators.js"></script>
 </head>
-<body>
+<body ng-app="studentPortalApp" ng-controller="PortalController as portal" ng-cloak>
   <div class="layout">
     <!-- ===== SIDEBAR (same on every page; edit link names here) ===== -->
     <aside class="sidebar">
-      <div class="logo" data-site-name>Student Portal</div>
-      <a class="nav-link" href="about.html">About</a>
-      <a class="nav-link" href="student-form.html">Student Form</a>
-      <a class="nav-link active" href="student-records.html">Student Records</a>
+      <div class="logo">{{ portal.siteName }}</div>
+      <a class="nav-link" ng-repeat="page in portal.pages" ng-href="{{ page.href }}" ng-class="{active: page.href === 'student-records.html'}">{{ page.label }}</a>
     </aside>
-    <main class="content">
+    <main class="content" ng-controller="StudentRecordsController as records">
       <h1>Student Records</h1>
       <p>These records are loaded from MongoDB through the API (<code>GET /api/students</code>).</p>
 
-      <div id="recordsMessage" class="message"></div>
+      <div class="records-controls">
+        <div class="field">
+          <label for="recordSearch">Filter records</label>
+          <input type="search" id="recordSearch" ng-model="records.search" placeholder="Search name, email, or department">
+        </div>
+        <div class="field">
+          <label for="recordSort">Sort by</label>
+          <select id="recordSort" ng-model="records.sortBy">
+            <option value="name">Name</option>
+            <option value="email">Email</option>
+            <option value="department">Department</option>
+            <option value="yearOfStudy">Year of study</option>
+          </select>
+        </div>
+      </div>
+      <p class="records-count" ng-if="!records.loading">{{ (records.students | filter:records.search).length }} matching record(s)</p>
+
+      <div class="message" ng-if="records.message" ng-class="{'show': true, 'error': records.messageType === 'error'}">{{ records.message }}</div>
 
       <table>
         <thead>
           <tr><th>#</th><th>Name</th><th>Email</th><th>Department</th><th>Year</th></tr>
         </thead>
         <tbody id="recordsBody">
-          <tr><td colspan="5">Loading...</td></tr>
+          <tr ng-if="records.loading"><td colspan="5">Loading...</td></tr>
+          <tr ng-if="!records.loading && !records.message && records.students.length === 0"><td colspan="5">No student records yet. Add one using the Student Form.</td></tr>
+          <tr ng-if="!records.loading && !records.message && records.students.length > 0 && (records.students | filter:records.search).length === 0"><td colspan="5">No records match your filter.</td></tr>
+          <tr ng-repeat="student in records.students | filter:records.search | orderBy:records.sortBy track by student._id">
+            <td>{{ $index + 1 }}</td><td>{{ student.name }}</td><td>{{ student.email }}</td>
+            <td>{{ student.department }}</td><td>{{ student.yearOfStudy }}</td>
+          </tr>
         </tbody>
       </table>
     </main>
   </div>
-  <script src="js/student-records.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.3/angular.min.js"></script>
+  <script src="js/angular-app.js"></script>
 </body>
 </html>

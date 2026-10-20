@@ -5,68 +5,54 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Student Form - Student Portal</title>
   <link rel="stylesheet" href="css/style.css">
-  <script src="js/site-config.js"></script>
-  <script src="js/validators.js"></script>
 </head>
-<body>
+<body ng-app="studentPortalApp" ng-controller="PortalController as portal" ng-cloak>
   <div class="layout">
     <!-- ===== SIDEBAR (same on every page; edit link names here) ===== -->
     <aside class="sidebar">
-      <div class="logo" data-site-name>Student Portal</div>
-      <a class="nav-link" href="about.html">About</a>
-      <a class="nav-link active" href="student-form.html">Student Form</a>
-      <a class="nav-link" href="student-records.html">Student Records</a>
+      <div class="logo">{{ portal.siteName }}</div>
+      <a class="nav-link" ng-repeat="page in portal.pages" ng-href="{{ page.href }}" ng-class="{active: page.href === 'student-form.html'}">{{ page.label }}</a>
     </aside>
-    <main class="content">
+    <main class="content" ng-controller="StudentFormController as formCtrl">
       <h1>Student Information Form</h1>
       <p>Fill in all fields. Fields marked * are required.</p>
 
-      <div id="formMessage" class="message"></div>
+      <div class="message" ng-if="formCtrl.message" ng-class="{'show': true, 'success': formCtrl.messageType === 'success', 'error': formCtrl.messageType === 'error'}">{{ formCtrl.message }}</div>
 
-      <!-- To add a field: copy one <div class="field"> block, change the id/label,
-           then add the same field name in js/student-form.js (fields list),
-           js/validators.js, models/Student.js and routes/studentHandlers.js -->
-      <form id="studentForm" class="form-box" novalidate>
+      <!-- To add a field, update this form, ValidationService, the Student model, and the API handler. -->
+      <form name="studentForm" class="form-box" ng-submit="formCtrl.submit(studentForm)" novalidate>
         <div class="field">
           <label for="name">Name *</label>
-          <input type="text" id="name" placeholder="Enter full name">
-          <div class="field-error" id="nameError"></div>
+          <input type="text" id="name" name="name" ng-model="formCtrl.student.name" placeholder="Enter full name">
+          <div class="field-error">{{ formCtrl.errors.name }}</div>
         </div>
         <div class="field">
           <label for="email">Email *</label>
-          <input type="email" id="email" placeholder="student@example.com">
-          <div class="field-error" id="emailError"></div>
+          <input type="email" id="email" name="email" ng-model="formCtrl.student.email" placeholder="student@example.com">
+          <div class="field-error">{{ formCtrl.errors.email }}</div>
         </div>
         <div class="field">
           <label for="department">Department *</label>
-          <select id="department">
+          <select id="department" name="department" ng-model="formCtrl.student.department" ng-options="department for department in formCtrl.departments">
             <option value="">-- Select department --</option>
-            <option>Computer Science</option>
-            <option>Information Technology</option>
-            <option>Electronics</option>
-            <option>Mechanical</option>
-            <option>Civil</option>
           </select>
-          <div class="field-error" id="departmentError"></div>
+          <div class="field-error">{{ formCtrl.errors.department }}</div>
         </div>
         <div class="field">
           <label for="yearOfStudy">Year of Study *</label>
-          <select id="yearOfStudy">
+          <select id="yearOfStudy" name="yearOfStudy" ng-model="formCtrl.student.yearOfStudy" ng-options="year.value as year.label for year in formCtrl.years">
             <option value="">-- Select year --</option>
-            <option value="1">1st Year</option>
-            <option value="2">2nd Year</option>
-            <option value="3">3rd Year</option>
-            <option value="4">4th Year</option>
           </select>
-          <div class="field-error" id="yearOfStudyError"></div>
+          <div class="field-error">{{ formCtrl.errors.yearOfStudy }}</div>
         </div>
         <div class="form-buttons">
           <button type="submit" class="btn">Submit</button>
-          <button type="reset" class="btn btn-secondary">Reset</button>
+          <button type="button" class="btn btn-secondary" ng-click="formCtrl.reset(studentForm)">Reset</button>
         </div>
       </form>
     </main>
   </div>
-  <script src="js/student-form.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.3/angular.min.js"></script>
+  <script src="js/angular-app.js"></script>
 </body>
 </html>

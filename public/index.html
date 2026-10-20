@@ -3,32 +3,28 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login - Student Portal</title>
+  <title>Portal Entry - Student Portal</title>
   <link rel="stylesheet" href="css/style.css">
-  <script src="js/site-config.js"></script>
-  <script src="js/validators.js"></script>
-  <script src="js/auth.js"></script>
 </head>
-<body>
+<body ng-app="studentPortalApp" ng-controller="PortalController as portal" ng-cloak>
   <div class="login-wrapper">
-    <div class="login-box">
-      <!-- EDIT: logo / website name (the name comes from js/site-config.js) -->
-      <div class="logo" data-site-name>Student Portal</div>
-      <div class="logo-sub" data-site-tagline>College Model Lab Practical</div>
+    <div class="login-box" ng-controller="EntryController as entry">
+      <div class="logo">{{ portal.siteName }}</div>
+      <div class="logo-sub">{{ portal.tagline }}</div>
 
-        <h2>Continue to the portal</h2>
-      <div id="loginMessage" class="message"></div>
+      <h2>Continue to the portal</h2>
+      <div class="message" ng-class="{'show error': entry.message}" ng-if="entry.message">{{ entry.message }}</div>
 
-      <form id="loginForm" novalidate>
+      <form id="loginForm" name="entryForm" ng-submit="entry.continue()" novalidate>
         <div class="field">
           <label for="email">Email</label>
-          <input type="email" id="email" placeholder="name@example.com" autocomplete="email" required>
-          <div class="field-error" id="emailError"></div>
+          <input type="email" id="email" name="email" ng-model="entry.credentials.email" placeholder="name@example.com" autocomplete="email" required>
+          <div id="emailError" class="field-error">{{ entry.errors.email }}</div>
         </div>
         <div class="field">
           <label for="password">Password</label>
-          <input type="password" id="password" placeholder="8+ characters, with a letter and number" autocomplete="current-password" required>
-          <div class="field-error" id="passwordError"></div>
+          <input type="password" id="password" name="password" ng-model="entry.credentials.password" placeholder="8+ characters, with a letter and number" autocomplete="off" required>
+          <div id="passwordError" class="field-error">{{ entry.errors.password }}</div>
         </div>
         <button type="submit" class="btn" style="width:100%">Sign in</button>
       </form>
@@ -36,5 +32,7 @@
       <p class="notice">Enter a valid email and a password with at least 8 characters, including a letter and a number. This checks format only; accounts are not stored or authenticated.</p>
     </div>
   </div>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.3/angular.min.js"></script>
+  <script src="js/angular-app.js"></script>
 </body>
 </html>

@@ -44,14 +44,12 @@ class LoginPageFormatTest(unittest.TestCase):
 
     def test_invalid_email_shows_error(self):
         self.enter_credentials("not-an-email", "password123")
-        error = self.wait.until(EC.visibility_of_element_located((By.ID, "emailError")))
-        self.assertIn("valid email", error.text.lower())
+        self.wait.until(lambda driver: "valid email" in driver.find_element(By.ID, "emailError").text.lower())
         self.assertTrue(self.driver.find_element(By.ID, "loginForm").is_displayed())
 
     def test_password_without_number_shows_error(self):
         self.enter_credentials("student@example.com", "passwordonly")
-        error = self.wait.until(EC.visibility_of_element_located((By.ID, "passwordError")))
-        self.assertIn("letter and one number", error.text.lower())
+        self.wait.until(lambda driver: "letter and one number" in driver.find_element(By.ID, "passwordError").text.lower())
 
     def test_valid_format_opens_student_form(self):
         self.enter_credentials("student@example.com", "password123")

@@ -5,47 +5,32 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>About - Student Portal</title>
   <link rel="stylesheet" href="css/style.css">
-  <script src="js/site-config.js"></script>
-  <script src="js/validators.js"></script>
 </head>
-<body>
+<body ng-app="studentPortalApp" ng-controller="PortalController as portal" ng-cloak>
   <div class="layout">
     <!-- ===== SIDEBAR (same on every page; edit link names here) ===== -->
     <aside class="sidebar">
-      <div class="logo" data-site-name>Student Portal</div>
-      <a class="nav-link active" href="about.html">About</a>
-      <a class="nav-link" href="student-form.html">Student Form</a>
-      <a class="nav-link" href="student-records.html">Student Records</a>
+      <div class="logo">{{ portal.siteName }}</div>
+      <a class="nav-link" ng-repeat="page in portal.pages" ng-href="{{ page.href }}" ng-class="{active: page.href === 'about.html'}">{{ page.label }}</a>
     </aside>
-    <main class="content">
+    <main class="content" ng-controller="AboutController as about">
       <!-- EDIT: every heading and paragraph below can be changed freely -->
       <h1>About the Website</h1>
 
-      <div class="about-section">
-        <h2>Introduction</h2>
-        <p>The Student Portal is a simple website where students can submit their details and view saved student records.</p>
-      </div>
-
-      <div class="about-section">
-        <h2>Purpose</h2>
-        <p>The purpose of this website is to make collecting and viewing student information easy and organised.</p>
-      </div>
-
-      <div class="about-section">
-        <h2>Mission</h2>
-        <p>Our mission is to provide a clear, simple and reliable system for managing student information.</p>
+      <div class="about-section" ng-repeat="section in about.sections">
+        <h2>{{ section.title }}</h2>
+        <p>{{ section.text }}</p>
       </div>
 
       <div class="about-section">
         <h2>Services / Features</h2>
         <ul>
-          <li>Student information form with validation</li>
-          <li>Records saved safely in a MongoDB database</li>
-          <li>Student records page showing all saved students</li>
-          <li>Simple email and password format validation</li>
+          <li ng-repeat="feature in about.features">{{ feature }}</li>
         </ul>
       </div>
     </main>
   </div>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.3/angular.min.js"></script>
+  <script src="js/angular-app.js"></script>
 </body>
 </html>

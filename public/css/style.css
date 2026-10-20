@@ -10,6 +10,7 @@
   --error-bg: #fdecec;   --error-text: #b42323;
 }
 * { box-sizing: border-box; }
+[ng-cloak], .ng-cloak { display: none !important; }
 body { margin: 0; font-family: Arial, Helvetica, sans-serif; background: #fff; color: var(--text); line-height: 1.5; }
 h1, h2, h3 { margin-top: 0; }
 a { color: var(--accent); }
@@ -62,10 +63,14 @@ th { background: var(--accent-light); }
 .form-box { max-width: 480px; }
 .form-buttons { display: flex; gap: 10px; }
 .about-section { margin-bottom: 24px; }
+.records-controls { display: flex; gap: 16px; align-items: flex-end; max-width: 720px; }
+.records-controls .field { flex: 1; }
+.records-count { color: var(--muted); font-size: 14px; }
 
 /* ---------- Smaller screens ---------- */
 @media (max-width: 760px) {
   .layout { flex-direction: column; }
   .sidebar { width: 100%; border-right: 0; border-bottom: 1px solid var(--border); }
   .content { padding: 20px; }
+  .records-controls { display: block; }
 }

@@ -1,6 +1,6 @@
 # Student Portal
 
-A student information portal built with Node.js, Express, MongoDB Atlas, Mongoose, HTML, CSS, and JavaScript. It includes a student form, a records page, an About page, an AngularJS example, and a Selenium demo.
+A student information portal built with AngularJS 1.8, Node.js, Express, MongoDB Atlas, and Mongoose. AngularJS controllers and services power the entry, About, student form, and records pages. The project also includes a small AngularJS example and a Selenium demo.
 
 > The entry page checks email and password formats only. It does not create accounts or authenticate users. Do not enter a real password.
 
@@ -9,6 +9,7 @@ A student information portal built with Node.js, Express, MongoDB Atlas, Mongoos
 - Windows 10 or 11
 - Git
 - Node.js LTS (includes npm)
+- Internet access for loading AngularJS 1.8.3 from Google's CDN
 - A MongoDB Atlas cluster, database user, and your PC's IP address allowed in Atlas Network Access
 - Python and Chrome only if you want to run the Selenium demo
 
@@ -65,14 +66,14 @@ Keep the terminal running while using the site. Press `Ctrl+C` in that terminal 
 
 ## Pages and examples
 
-- `/` — email/password format-check entry page
+- `/` — AngularJS email/password format-check entry page
 - `/about.html` — About
 - `/student-form.html` — add a student record
-- `/student-records.html` — view saved records
+- `/student-records.html` — view, filter, and sort saved records
 - `/examples/angularjs-demo.html` — small AngularJS demo (loads AngularJS from a CDN)
 - `/examples/students.xml` — sample XML file
 
-The student form saves data through the Express API to MongoDB Atlas. Always access the pages through the local server at `http://localhost:3000`, rather than opening the HTML files directly.
+All main pages use AngularJS directives such as `ng-app`, `ng-controller`, `ng-model`, `ng-repeat`, and `ng-submit`. Shared AngularJS services handle validation and API calls. The student form saves data through the Express API to MongoDB Atlas. Always access the pages through the local server at `http://localhost:3000`, rather than opening the HTML files directly.
 
 ## Selenium login-page demo
 
