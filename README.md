@@ -1,192 +1,119 @@
-# Student Portal (Model Lab Practical)
+# Student Portal
 
-A simple, reusable Student Portal: **Node.js + Express + MongoDB (Mongoose)** backend, plain HTML/CSS/JavaScript frontend,
-an AngularJS demo, an XML example, tests, and a Figma guide.
+A student information portal built with Node.js, Express, MongoDB Atlas, Mongoose, HTML, CSS, and JavaScript. It includes a student form, a records page, an About page, an AngularJS example, and a Selenium demo.
 
-> The entry form checks email and password formats only. This project does not create accounts or authenticate users.
+> The entry page checks email and password formats only. It does not create accounts or authenticate users. Do not enter a real password.
 
----
+## Requirements
 
-## 1. Folder structure
+- Windows 10 or 11
+- Git
+- Node.js LTS (includes npm)
+- A MongoDB Atlas cluster, database user, and your PC's IP address allowed in Atlas Network Access
+- Python and Chrome only if you want to run the Selenium demo
 
-```
-student-portal/
-├── server.js                  Starts the server, connects to MongoDB
-├── package.json               Project info + dependencies + scripts
-├── .env.example               Configuration template (copy to .env)
-├── models/Student.js          Mongoose model (fields of a student)
-├── routes/
-│   ├── studentRoutes.js       URLs: POST/GET /api/students
-│   └── studentHandlers.js     The code that runs for those URLs
-├── public/                    The website (served by Express)
-│   ├── index.html             Login page
-│   ├── about.html             About page
-│   ├── student-form.html      Student information form
-│   ├── student-records.html   Saved records table
-│   ├── css/style.css          All styling (colours are at the top)
-│   └── js/
-│       ├── site-config.js     Website name (EDIT HERE)
-│       ├── validators.js      Validation rules (browser, server, tests)
-│       ├── auth.js            Entry form format validation
-│       ├── student-form.js    Sends the form to the API
-│       └── student-records.js Loads records from the API
-├── examples/
-│   ├── angularjs-demo.html    AngularJS demo
-│   └── students.xml           XML example
-├── tests/                     Test cases (npm test)
-├── FIGMA_GUIDE.md             How to recreate the design in Figma
-└── README.md                  This file
+### Install Git and Node.js from Windows Terminal
+
+Check if they are installed:
+
+```powershell
+git --version
+node --version
+npm --version
 ```
 
----
+If a command is not found, install the missing tool:
 
-## 2. Install Node.js and MongoDB (one time)
-
-1. Install **Node.js (LTS)** from https://nodejs.org . Check in Command Prompt:
-   ```
-   node --version
-   npm --version
-   ```
-2. Install **MongoDB Community Server** from https://www.mongodb.com/try/download/community .
-   Choose **"Install MongoDB as a Service"** in the installer (easiest).
-
----
-
-## 3. Start MongoDB
-
-**If you installed it as a Service** (recommended), MongoDB usually starts automatically. To start it manually,
-open Command Prompt **as Administrator**:
-```
-net start MongoDB
+```powershell
+winget install --id Git.Git -e --source winget
+winget install --id OpenJS.NodeJS.LTS -e --source winget
 ```
 
-**If you did not install it as a service**, create the data folder once and start MongoDB in its own Command Prompt window
-(replace `8.0` with your installed version number; keep this window open):
-```
-mkdir C:\data\db
-"C:\Program Files\MongoDB\Server\8.0\bin\mongod.exe"
-```
+Close and reopen the terminal after installation, then run the version checks again.
 
-You do **not** need to create the `student_portal` database yourself. MongoDB creates it automatically
-when the first student is saved.
+## Download and run the project
 
----
+In Windows Terminal or PowerShell, run:
 
-## 4. Run the project (Windows Command Prompt)
-
-Open Command Prompt and go into the project folder (change the path to where you unzipped it):
-```
-cd C:\Users\YourName\Downloads\student-portal
-```
-Then run these one by one:
-```
+```powershell
+git clone https://github.com/HELLOTCE/web.git
+cd web
 npm install
 copy .env.example .env
+notepad .env
+```
+
+In `.env`, replace the `MONGODB_URI` placeholders with your Atlas connection string. It should follow this pattern:
+
+```text
+mongodb+srv://USERNAME:PASSWORD@CLUSTER.mongodb.net/student_portal?retryWrites=true&w=majority
+```
+
+Use your Atlas **database user** credentials, not your Atlas website login. If the database password contains reserved URL characters, URL-encode them. Save `.env` and close Notepad. Keep `.env` private; it is excluded from Git.
+
+In Atlas, add your current public IP under **Network Access** and ensure the database user has permission to read and write to the database. The app uses the `student_portal` database and creates its collection when the first student record is saved.
+
+Start the server:
+
+```powershell
 npm start
 ```
-You should see:
-```
-Server running at http://localhost:3000
-MongoDB connected: mongodb://127.0.0.1:27017/student_portal
-```
-Open **http://localhost:3000** in your browser. The entry form accepts any valid email and a password of at least 8 characters containing a letter and a number; it only checks format and does not authenticate an account.
 
-> Always open the site through `http://localhost:3000`. Do **not** double-click the HTML files for the main
-> pages, because the form and records need the server.
+Open [http://localhost:3000](http://localhost:3000). To check the server and database status, visit [http://localhost:3000/api/health](http://localhost:3000/api/health); the database value should be `connected`.
 
-If you see `MongoDB connection FAILED`, MongoDB is not running: go back to Step 3 and restart `npm start`.
-The pages still open, but saving/loading students will show a "database not connected" message.
+Keep the terminal running while using the site. Press `Ctrl+C` in that terminal to stop the server.
 
-### Configuration (`.env`)
-| Variable | Meaning | Default |
-|---|---|---|
-| `PORT` | Port of the website | `3000` |
-| `MONGODB_URI` | MongoDB address; the last part is the database name | `mongodb://127.0.0.1:27017/student_portal` |
+## Pages and examples
 
-Database settings live only on the server (`.env`), never in the frontend JavaScript.
+- `/` — email/password format-check entry page
+- `/about.html` — About
+- `/student-form.html` — add a student record
+- `/student-records.html` — view saved records
+- `/examples/angularjs-demo.html` — small AngularJS demo (loads AngularJS from a CDN)
+- `/examples/students.xml` — sample XML file
 
----
+The student form saves data through the Express API to MongoDB Atlas. Always access the pages through the local server at `http://localhost:3000`, rather than opening the HTML files directly.
 
-## 5. API endpoints
+## Selenium login-page demo
 
-| Method | URL | What it does |
-|---|---|---|
-| `GET` | `/api/health` | Shows if the server is running and if MongoDB is connected |
-| `POST` | `/api/students` | Validates and saves one student. Body (JSON): `name`, `email`, `department`, `yearOfStudy` (1-4). Returns `201` on success, `400` if validation fails, `503` if MongoDB is not connected |
-| `GET` | `/api/students` | Returns all saved students, newest first: `{ success, count, students }` |
+The script checks that invalid email and password formats show errors, and that valid formats continue to the student form. This tests format validation only, not account authentication.
 
-Quick browser check: open http://localhost:3000/api/students
+With the portal running, open a second terminal in the project directory and run:
 
-Command Prompt example (Windows 10/11 has `curl`):
-```
-curl -X POST http://localhost:3000/api/students -H "Content-Type: application/json" -d "{\"name\":\"Asha\",\"email\":\"asha@example.com\",\"department\":\"Computer Science\",\"yearOfStudy\":\"3\"}"
-```
-
----
-
-## 6. AngularJS demo and XML example
-
-- AngularJS: start the server and open **http://localhost:3000/examples/angularjs-demo.html**
-  (or double-click `examples/angularjs-demo.html`). It needs internet to load AngularJS from a CDN.
-  Without internet, download `angular.min.js` into the `examples` folder and change the `<script src>` line.
-  The file is commented line by line: `ng-app`, `ng-controller`, `ng-model`, `{{ }}`.
-- XML: open `examples/students.xml` in a browser or Notepad.
-
-### Selenium login-page demo
-
-The Selenium script in `examples/selenium_login_test.py` checks invalid email, a password missing a number, and a valid format that continues to the student form. The form only checks input format; it does not authenticate an account.
-
-With the portal running in one terminal (`npm start`), install Selenium and run the script in another:
-```
+```powershell
 python -m pip install selenium
 python examples/selenium_login_test.py
 ```
-The example opens Chrome. Selenium 4's Selenium Manager locates the browser driver. To run headless, set `HEADLESS=1`; to use another server address, set `PORTAL_URL` (for example `http://localhost:3001/`).
 
----
+The demo opens Chrome. Selenium 4 uses Selenium Manager to locate the browser driver. For headless mode in PowerShell:
 
-## 7. Testing
-
-The tests use Node's **built-in** test runner (no extra library). Run:
+```powershell
+$env:HEADLESS = "1"
+python examples/selenium_login_test.py
 ```
+
+## Tests
+
+Run the Node.js tests with:
+
+```powershell
 npm test
 ```
-| Test file | What it checks |
-|---|---|
-| `tests/validators.test.js` | Login form validation, student form validation |
-| `tests/studentHandlers.test.js` | Successful submission (saved, status 201), rejected invalid data (400), database error (500), retrieving records |
 
-The handler tests use a fake in-memory model, so they run **without MongoDB**.
-They do not test the HTML pages in a browser; do that manually (see below).
+The tests cover form validation and API handlers using a fake model; they do not require a database.
 
-**Manual test checklist:** invalid email/password formats show errors; valid formats open the student form;
-empty student form shows errors; valid submission shows a success message; the record appears on Student Records.
+## API endpoints
 
----
+| Method | Endpoint | Description |
+|---|---|---|
+| `GET` | `/api/health` | Server and database connection status |
+| `GET` | `/api/students` | List saved students |
+| `POST` | `/api/students` | Validate and save a student (`name`, `email`, `department`, `yearOfStudy`) |
 
-## 8. Quick edits for the exam
+## Troubleshooting
 
-| I want to change... | Edit this |
-|---|---|
-| Website name / tagline, demo email and password | `public/js/site-config.js` |
-| Colours | top of `public/css/style.css` (`:root`) |
-| About page text | `public/about.html` |
-| Sidebar link names | the `<aside class="sidebar">` block in each page |
-| Form labels, dropdown options | `public/student-form.html` |
-| **Add a new form field** (e.g. phone) | 1) `student-form.html` (copy a field block, add `phoneError` div) 2) `fields` list in `js/student-form.js` 3) rules in `js/validators.js` 4) `models/Student.js` 5) the `Student.create({...})` call in `routes/studentHandlers.js` 6) a column in `student-records.html` and `js/student-records.js` |
-| MongoDB collection name | `mongoose.model('Student', ...)` in `models/Student.js` (collection = lowercase plural, `students`) |
-
----
-
-## 9. Figma
-
-See `FIGMA_GUIDE.md`. No Figma design file is included.
-
-## 10. Common problems
-
-| Problem | Fix |
-|---|---|
-| `'npm' is not recognized` | Install Node.js, then close and reopen Command Prompt |
-| `MongoDB connection FAILED` | Start MongoDB (Step 3) and run `npm start` again |
-| `Port 3000 already in use` | Change `PORT` in `.env`, e.g. `3001` |
-| Records page shows "Database is not connected" | MongoDB is not running |
+- **`git` is not recognized:** Install Git, then reopen the terminal.
+- **`npm` or `node` is not recognized:** Install Node.js LTS, then reopen the terminal.
+- **MongoDB connection failed:** Check that `.env` contains the correct Atlas URI, the database user/password are correct, and Atlas Network Access allows your IP.
+- **Port 3000 is busy:** Change `PORT` in `.env` (for example, `PORT=3001`) and open `http://localhost:3001`.
+- **Selenium cannot start Chrome:** Install or update Chrome and try the Selenium command again.
